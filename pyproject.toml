@@ -1,13 +1,16 @@
 [project]
 name = "ollama-on-mac"
 version = "0.1.0"
-description = "Add your description here"
+description = "Chat with a local Ollama gpt-oss:20b model"
 readme = "README.md"
 authors = [
     { name = "mzr", email = "taghipour.maziar@yahoo.com" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "ollama>=0.6.3",
+    "streamlit>=1.66.1",
+]
 
 [project.scripts]
 ollama-on-mac = "ollama_on_mac:main"
