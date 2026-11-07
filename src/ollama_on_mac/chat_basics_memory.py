@@ -33,6 +33,7 @@ while True:
     for chunk in stream:
         piece = chunk.message.content or ""
         print(chunk.message.content, end="", flush=True)
+        # Here we create the response text by concatenating the pieces of the response
         response_text += str(piece)
     print()
 

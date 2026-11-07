@@ -3,11 +3,12 @@ Chat with the local Ollama model `gpt-oss:20b`.
 Open the chat app:
 
 ```bash
-uv run ollama-on-mac
+uv run chat_basics
 ```
 
-Ask once in the terminal:
-
+to run steamlit 
 ```bash
-uv run ollama-on-mac "Say hello in one sentence."
+uv install streamlit
+source ./venv/bin/activate
+streamlit run name_of_script
 ```
