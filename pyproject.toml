@@ -8,7 +8,12 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "mlx-whisper",
+    "numpy",
     "ollama>=0.6.3",
+    "scipy",
+    "scipy-stubs>=1.18.1.1",
+    "sounddevice",
     "streamlit>=1.66.1",
 ]
 
@@ -23,7 +28,16 @@ build-backend = "uv_build"
 dev = [
     "pytest>=9.2.0",
     "ruff>=0.17.3",
+    "scipy-stubs>=1.18.1.1",
 ]
+
+[tool.pyrefly]
+python-interpreter-path = ".venv/bin/python"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+extraPaths = ["src"]
 
 [tool.uv.workspace]
 members = [
