@@ -11,7 +11,7 @@ def transcribe_audio(audio_path: Path  , model: str = WHISPER_MODEL) -> str:
     print(f"Transcribing audio from {audio_path} with model {model}...")
     # path_or_hf_repo is the path to the model or the name of the model on the Hugging Face Hub
     result   = mlx_whisper.transcribe(str(audio_path), path_or_hf_repo=model)
-    return result[0]["text"].strip() # type: ignore
+    return result["text"].strip() # type: ignore
 
 if __name__ == "__main__":
     text = transcribe_audio(AUDIO_FILE)
