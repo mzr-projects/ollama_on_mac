@@ -7,13 +7,25 @@ import os
 import ollama
 
 WHISPER_MODEL = "mlx-community/whisper-small-mlx"
-OLLAMA_MODEL = "llama3.1:8b"
+OLLAMA_MODEL = "gpt-oss:20b"
 
 st.title("Voice Chat")
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
 # record the audio input
 audio_input = st.audio_input("Record your message")
 
-if audio_input is not None:
+if (
+    audio_input is not None
+    and audio_input.file_id != st.session_state.get("processed_audio_id")
+):
+    st.session_state.processed_audio_id = audio_input.file_id
     # write the audio input to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as f:
         f.write(audio_input.read())
@@ -34,13 +46,17 @@ if audio_input is not None:
         with st.chat_message("user"):
             st.markdown(transcribed_text)
         with st.chat_message("assistant"):
-            response_text=""
-            placeholder_text=st.empty()
-            stream = ollama.chat(model=OLLAMA_MODEL, messages=st.session_state.messages,stream=True)
-        for chunk in stream:
-            response_text += chunk["message"]["content"]
-            placeholder_text.markdown(response_text + "▌")
-        placeholder_text.markdown(response_text)
+            response_text = ""
+            placeholder_text = st.empty()
+            stream = ollama.chat(
+                model=OLLAMA_MODEL,
+                messages=st.session_state.messages,
+                stream=True,
+            )
+            for chunk in stream:
+                response_text += chunk["message"]["content"] or ""
+                placeholder_text.markdown(response_text + "▌")
+            placeholder_text.markdown(response_text)
     
         st.session_state.messages.append({"role": "assistant", "content": response_text})
 
